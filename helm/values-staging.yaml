@@ -1,0 +1,25 @@
+namespace:
+  name: staging
+
+image:
+  repository: sbodrero/techtrends
+  tag: latest
+  imagePullPolicy: IfNotPresent
+  ports:
+  - containerPort: 80
+
+replicaCount: 3
+
+resources:
+  requests:
+    cpu: 300m
+    memory: 90Mi
+  limits:
+    cpu: 500m
+    memory: 128Mi
+
+service:
+  type: ClusterIP
+  port: 5111
+  protocol: TCP
+  targetPort: 3111

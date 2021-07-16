@@ -1,0 +1,25 @@
+namespace:
+  name: sandbox
+ 
+image:
+  repository: sbodrero/techtrends
+  tag: latest
+  imagePullPolicy: IfNotPresent
+  ports:
+  - containerPort: 80
+
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 64Mi
+  limits:
+    cpu: 500m
+    memory: 128Mi
+
+service:
+  type: ClusterIP
+  port: 8111
+  protocol: TCP
+  targetPort: 3111
