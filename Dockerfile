@@ -1,7 +1,7 @@
 FROM python:2.7
 LABEL maintainer="Sebastien Bodrero"
 
-COPY . /app
+COPY techtrends /app
 WORKDIR /app
 
 RUN pip install -r requirements.txt
