@@ -6,7 +6,7 @@ image:
   tag: latest
   imagePullPolicy: Always
   ports:
-  - containerPort: 80
+    containerPort: 80
 
 replicaCount: 5
 
