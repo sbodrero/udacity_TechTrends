@@ -25,8 +25,8 @@ spec:
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
         name: techtrends
         ports:
-          name: http
-          - containerPort: {{ .Values.image.ports.containerPort }}
+        - name: http
+          containerPort: {{ .Values.image.ports.containerPort }}
         livenessProbe:
           httpGet:
             path: /healthz
