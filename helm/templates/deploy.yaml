@@ -27,12 +27,7 @@ spec:
         ports:
         - containerPort: {{ .Values.containerPorts }}
         livenessProbe:
-          httpGet:
-            path: /healthz
-            port: {{ .Values.containerPorts }}
+{{ toYaml .Values.livenessProbe | indent 12 }}
         readinessProbe:
-          httpGet:
-            path: /healthz
-            port: {{ .Values.containerPorts }}
-        resources:
+{{ toYaml .Values.readinessProbe | indent 12 }}
 {{ toYaml .Values.resources | indent 12 }}

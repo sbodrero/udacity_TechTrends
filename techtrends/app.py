@@ -1,9 +1,22 @@
 import sqlite3
 import logging
+import sys
+import datetime
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
 
+# Function to print stdout
+def log_to_stdout(message):
+    # Here a is the array holding the objects
+    # passed as the argument of the function
+    sys.stdout.write(message)
+
+# Function to print stderr
+def log_to_stderr(message):
+    # Here a is the array holding the objects
+    # passed as the argument of the function
+    sys.stderr.write(message)
 
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
@@ -93,10 +106,10 @@ def post(post_id):
     increment_by_one_db_access_count()
     post = get_post(post_id)
     if post is None:
-        app.logger.info('Non existing article with id. ' + post_id)
+        log_to_stderr('Non existing article with id. ' + str(post_id))
         return render_template('404.html'), 404
     else:
-        app.logger.info('Article "' + post['title'] + '" retrieved')
+        log_to_stdout('Article "' + post['title'] + '" retrieved ')
         return render_template('post.html', post=post)
 
 
@@ -104,7 +117,7 @@ def post(post_id):
 @app.route('/about')
 def about():
     increment_by_one_db_access_count()
-    app.logger.info('About Us page visited')
+    log_to_stdout('About Us page visited')
     return render_template('about.html')
 
 
@@ -124,7 +137,7 @@ def create():
             connection.commit()
             connection.close()
 
-            app.logger.info('New Article "' + title + '" recorded')
+            log_to_stdout('New Article "' + title + '" recorded ')
 
             return redirect(url_for('index'))
 
