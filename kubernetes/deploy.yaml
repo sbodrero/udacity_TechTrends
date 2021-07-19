@@ -19,7 +19,8 @@ spec:
       - name: techtrends
         image: sbodrero/techtrends:latest
         ports:
-        - containerPort: 80
+          - containerPort: 80
+            protocol: TCP
         livenessProbe:
           httpGet:
             path: /healthz
