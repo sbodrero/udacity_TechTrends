@@ -6,10 +6,7 @@ image:
   tag: latest
   imagePullPolicy: IfNotPresent
 
-containerPorts:
-  http:
-    port: 80
-    protocol: TCP
+containerPorts: 3111
 
 replicaCount: 1
 
@@ -23,6 +20,6 @@ resources:
 
 service:
   type: ClusterIP
-  port: 8111
+  port: 4111
   protocol: TCP
   targetPort: 3111

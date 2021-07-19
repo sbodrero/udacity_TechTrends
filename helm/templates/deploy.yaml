@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app: techtrends
   name: techtrends
   namespace: {{ .Values.namespace.name }} 
 spec:
@@ -23,15 +25,14 @@ spec:
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
         name: techtrends
         ports:
-          - containerPort: {{ .Values.containerPorts.http.port }}
-            protocol: {{ .Values.containerPorts.http.protocol }}
+        - containerPort: {{ .Values.containerPorts }}
         livenessProbe:
           httpGet:
             path: /healthz
-            port: {{ .Values.containerPorts.http.port }}
+            port: {{ .Values.containerPorts }}
         readinessProbe:
           httpGet:
             path: /healthz
-            port: {{ .Values.containerPorts.http.port }}
+            port: {{ .Values.containerPorts }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
