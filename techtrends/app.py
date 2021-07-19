@@ -22,14 +22,6 @@ def get_post(post_id):
     return post
 
 
-# Function to update posts view count
-def update_post_view(post_id):
-    connection = get_db_connection()
-    connection.execute('UPDATE posts set view = view + 1 WHERE posts.id = ?',
-                       (post_id,))
-    connection.close()
-
-
 # Function to get posts count
 def get_post_count():
     connection = get_db_connection()
@@ -38,9 +30,19 @@ def get_post_count():
     return post_count
 
 
-# Function to get posts view sum
+# Function to get database access counter
+def get_db_access_count():
+    connection = get_db_connection()
+    count = connection.execute('SELECT counter FROM metrics WHERE name="db_access_count"').fetchone()
+    connection.close()
+    return count[0]
 
-
+# Function to increment database access counter
+def increment_by_one_db_access_count():
+    connection = get_db_connection()
+    connection.execute('UPDATE metrics set counter = counter+1 WHERE name="db_access_count"')
+    connection.commit()
+    connection.close()
 
 # Define the Flask application
 app = Flask(__name__)
@@ -50,6 +52,7 @@ app.config['SECRET_KEY'] = 'your secret key'
 # Define the main route of the web application
 @app.route('/')
 def index():
+    increment_by_one_db_access_count()
     connection = get_db_connection()
     posts = connection.execute('SELECT * FROM posts').fetchall()
     connection.close()
@@ -72,8 +75,9 @@ def healthz():
 @app.route('/metrics')
 def metrics():
     post_count = get_post_count()
+    db_access_count = get_db_access_count()
     response = app.response_class(
-            response=json.dumps({"data": {"db_connection_count": 140,
+            response=json.dumps({"data": {"db_connection_count": db_access_count,
                                           "post_count": post_count}}),
             status=200,
             mimetype='application/json'
@@ -86,6 +90,7 @@ def metrics():
 # If the post ID is not found a 404 page is shown
 @app.route('/<int:post_id>')
 def post(post_id):
+    increment_by_one_db_access_count()
     post = get_post(post_id)
     if post is None:
         app.logger.info('Non existing article with id. ' + post_id)
@@ -98,6 +103,7 @@ def post(post_id):
 # Define the About Us page
 @app.route('/about')
 def about():
+    increment_by_one_db_access_count()
     app.logger.info('About Us page visited')
     return render_template('about.html')
 
