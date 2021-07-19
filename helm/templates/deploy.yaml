@@ -24,13 +24,16 @@ spec:
       - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
         name: techtrends
+        ports:
+          - containerPort: {{ .Values.containerPorts.http.port }}
+            protocol: {{ .Values.containerPorts.http.protocol }}
         livenessProbe:
           httpGet:
             path: /healthz
-            port: {{ .Values.image.ports.containerPort }}
+            port: {{ .Values.containerPorts.http.port }}
         readinessProbe:
           httpGet:
             path: /healthz
-            port: {{ .Values.image.ports.containerPort }}
+            port: {{ .Values.containerPorts.http.port }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}

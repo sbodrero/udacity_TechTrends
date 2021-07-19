@@ -2,11 +2,7 @@ namespace:
   name: prod
 
 image:
-  repository: sbodrero/techtrends
-  tag: latest
   imagePullPolicy: Always
-  ports:
-    containerPort: 80
 
 replicaCount: 5
 
@@ -19,7 +15,4 @@ resources:
     memory: 256Mi
 
 service:
-  type: ClusterIP
   port: 7111
-  protocol: TCP
-  targetPort: 3111

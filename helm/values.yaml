@@ -5,8 +5,11 @@ image:
   repository: sbodrero/techtrends
   tag: latest
   imagePullPolicy: IfNotPresent
-  ports:
-    containerPort: 80
+
+containerPorts:
+  http:
+    port: 80
+    protocol: TCP
 
 replicaCount: 1
 
